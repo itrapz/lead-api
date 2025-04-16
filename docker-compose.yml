@@ -1,0 +1,47 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: lead-api-php
+    volumes:
+      - ./:/var/www/html
+    environment:
+      - APP_ENV=dev
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: lead-api-nginx
+    ports:
+      - "8077:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:8.0
+    container_name: lead-api-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: lead_db
+      MYSQL_USER: lead_user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3377:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: lead-api-redis
+    ports:
+      - "6377:6379"
+
+volumes:
+  mysql_data:

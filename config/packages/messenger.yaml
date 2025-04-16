@@ -1,0 +1,6 @@
+framework:
+    messenger:
+        transports:
+            lead_queue: '%env(MESSENGER_TRANSPORT_DSN)%'
+        routing:
+            'App\Message\LeadMessage': lead_queue
