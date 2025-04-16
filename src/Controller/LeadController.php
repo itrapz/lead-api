@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Dto\DynamicLeadData;
 use App\Entity\Lead;
 use App\Message\LeadMessage;
-use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,9 +25,9 @@ class LeadController extends AbstractController
     public function submit(
         Request $request,
         SerializerInterface $serializer,
-        EntityManagerInterface $em,
         ValidatorInterface $validator,
         MessageBusInterface $messageBus,
+        LoggerInterface $logger,
     ): JsonResponse|Response {
         $data = json_decode($request->getContent(), true);
 
@@ -35,7 +35,12 @@ class LeadController extends AbstractController
             $dynamicDto = $serializer->denormalize($data['dynamicData'] ?? [], DynamicLeadData::class);
 
             $errors = $validator->validate($dynamicDto);
-            if (count($errors)) {
+            if (count($errors) > 0) {
+                $logger->warning('Validation failed', [
+                    'errors' => (string) $errors,
+                    'payload' => $request->getContent()
+                ]);
+
                 return $this->errorResponse($errors);
             }
         } catch (\Exception $e) {
@@ -45,7 +50,12 @@ class LeadController extends AbstractController
         $lead = Lead::fromArray($data);
 
         $errors = $validator->validate($lead);
-        if (count($errors)) {
+        if (count($errors) > 0) {
+            $logger->warning('Validation failed', [
+                'errors' => (string) $errors,
+                'payload' => $request->getContent()
+            ]);
+
             return $this->errorResponse($errors);
         }
 
