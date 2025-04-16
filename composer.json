@@ -72,8 +72,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
-            "require": "7.2.*"
+            "docker": false
         }
     },
     "require-dev": {
