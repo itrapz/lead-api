@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS lead_db_test;
+GRANT ALL PRIVILEGES ON lead_db_test.* TO 'lead_user'@'%';
+FLUSH PRIVILEGES;

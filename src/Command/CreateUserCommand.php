@@ -30,7 +30,6 @@ class CreateUserCommand extends Command
         $userReflection->getProperty('email')->setValue($user, 'test@test.com');
         $userReflection->getProperty('phone')->setValue($user, '9295032300');
         $userReflection->getProperty('dateOfBirth')->setValue($user, (new DateTimeImmutable())->modify('- 20 years'));
-        //$userReflection->getProperty('username')->setValue($user, 'testuser');
         $userReflection->getProperty('username')->setValue($user, 'testuser');
         $userReflection->getProperty('apiToken')->setValue($user, 'testtoken123');
 
