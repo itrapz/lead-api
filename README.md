@@ -63,7 +63,7 @@ And launch test lead handler worker
 docker exec -d lead-api-api_test bash -c "php bin/console messenger:consume lead_queue"
 ```
 
-Then run the testing script:
+Then, run the testing script and review the results:
 ```
 docker run -i grafana/k6 run - < test_script.js
 ```
