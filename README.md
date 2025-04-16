@@ -5,24 +5,14 @@ docker-compose up -d
 ```
 
 ##  Create DB tables
-run composer
+run composer and migrations with user creation
 ```
-docker exec -it lead-api-php composer install
-```
-and run migration and type yes:
-```
-docker exec -it lead-api-php php bin/console doctrine:migrations:migrate
+docker exec lead-api-php bash -c "composer install && php bin/console doctrine:migrations:migrate -n && php bin/console app:create-user"
 ```
 
 project api will available here:
 http://localhost:8077/api
 
-
-##  Create User with token
-run command
-```
-docker exec -it lead-api-php php bin/console app:create-user
-```
 
 ## Add leads handler
 Lead handling was implemented asynchronously to support over 1000 requests per minute. Make sure to run LeadMessageHandler to process each POST request to /leads asynchronously%
@@ -59,7 +49,7 @@ curl --location 'http://localhost:8077/api/leads' \
 ##  Load Testing
 I decided to create a separate test environment to ensure clean and isolated testing processes. In this setup, we need to run the API and tests separately. Let's create a test database to store all testing data independently.
 ```
-docker exec -it lead-api-php php bin/console doctrine:migrations:migrate --env=test
+docker exec -it lead-api-php php bin/console doctrine:migrations:migrate --env=test -n
 ```
 
 run test api instances
@@ -83,3 +73,4 @@ if you have a problem with k6 package to run testing, install it with:
 brew install k6   
 ```
 
+all testing data will be stored separately in lead_db_test database
