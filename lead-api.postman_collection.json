@@ -1,0 +1,79 @@
+{
+	"info": {
+		"_postman_id": "e3e949b7-da1f-4130-9aaa-7f73628e80ba",
+		"name": "lead-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4541207"
+	},
+	"item": [
+		{
+			"name": "health-check",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "testtoken123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8077/api/health-check",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8077",
+					"path": [
+						"api",
+						"health-check"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post-lead",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "testtoken123",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"check1\",\n    \"lastName\": \"check2\",\n    \"email\": \"check@email.com\",\n    \"phone\": \"9295032303\",\n    \"dateOfBirth\": \"2002-01-02\",\n    \"dynamicData\": {\n        \"middleName\": \"middleCheck\",\n        \"hobbies\": [\"basketball\", \"video games\"], \n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8077/api/leads",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8077",
+					"path": [
+						"api",
+						"leads"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

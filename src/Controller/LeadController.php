@@ -57,8 +57,8 @@ class LeadController extends AbstractController
     #[Route('/health-check', name: 'health-check', methods: [Request::METHOD_GET])]
     public function healthCheck(
         Request $request
-    ): JsonResponse {
-        return $this->json([], Response::HTTP_OK);
+    ): Response {
+        return new Response('', Response::HTTP_OK);
     }
 
     private function errorResponse(ConstraintViolationListInterface $errors): JsonResponse
