@@ -57,9 +57,7 @@ curl --location 'http://localhost:8077/api/leads' \
 ```
 
 ##  Load Testing
-I decided to make separated test environment for clean testing processes.
-In this case we need to run separate api and tests.
-Let's create test database, to store all testing data separately.
+I decided to create a separate test environment to ensure clean and isolated testing processes. In this setup, we need to run the API and tests separately. Let's create a test database to store all testing data independently.
 ```
 docker exec -it lead-api-php php bin/console doctrine:migrations:migrate --env=test
 ```
@@ -73,14 +71,14 @@ and launch test lead handler worker
 docker exec -it lead-api-api_test php bin/console messenger:consume lead_queue
 ```
 
-then go out from the docker php image with exit command and run:
+Then run the testing script:
 ```
 docker run -i grafana/k6 run - < test_script.js
 ```
-to test endpoint load level
-you can customize time and users in  test_script.js
+to test endpoint's load level
+btw, you can customize time and users in  test_script.js
 
-if you have problem with k6 package to run testing, install it with:
+if you have a problem with k6 package to run testing, install it with:
 ```
 brew install k6   
 ```
