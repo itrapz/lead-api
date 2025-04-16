@@ -31,3 +31,10 @@ php bin/console messenger:consume lead_queue -vv
 ```
 
 Now every POST request to the /leads endpoint stores data in the api_requests and api_responses database tables, and each request is also processed asynchronously.
+
+## Endpoints Postman collection
+This collection is provided in 
+```
+lead-api.postman_collection.json
+```
+file
