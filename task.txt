@@ -1,0 +1,63 @@
+Objective: Create a web application that ingests lead data with high throughput and efficiently
+stores it. Must use a well-known PHP MVC Framework, preferably Symfony.
+
+Requirements:
+1) Web application setup
+a) Set up a Framework / Symfony project using the latest stable version.
+b) Ensure adherence to best practices for modular code organization, dependency injection,
+and routing.
+
+2) API authentication
+a) Implement an authentication mechanism to secure the API.
+b) All incoming requests must be authenticated before they are processed. Unauthorized
+requests should return a clear error response.
+
+3) Lead submission and validation
+a) Create an endpoint that accepts JSON-formatted lead data. Payload should include data
+points such as: first name, last name, email address, phone number, date of birth, etc.
+b) Validate the incoming data with the Framework’s validation component, rejecting invalid
+submissions with appropriate error responses.
+c) Store validated lead data in a MySQL database, ideally using the ORM of the Framework.
+
+4) MySQL database schema design
+a) Design a schema that efficiently stores:
+i) Lead data – All lead information from incoming submissions.
+ii) API request logs – Details of each API request, including metadata and timestamps.
+iii) API response logs – Details of each API response, including metadata and timestamps.
+
+5) High-throughput and scalability
+a) Design the application in a way it can process at least 1,000 lead submissions per minute.
+b) Use strategies like caching and optimal memory utilization to handle high traffic and
+maintain consistent performance.
+c) Optionally use a load testing tool that can showcase the performance of the application.
+
+6) Error handling and logging
+a) Implement error handling to capture and log failed submissions, validation errors, and API
+failures.
+b) Ensure data consistency, especially for leads that are partially processed due to API
+failures.
+
+7) Postman collection
+a) Provide a Postman collection that includes samples for all endpoints to allow interacting
+with the API.
+
+Environment:
+Docker: a simple Docker setup to allow the application to run locally. You can use an existing
+Docker development setup, like dunglas/symfony-docker or laradock/laradock.
+
+Delivery:
+GitHub: Deliver the code in a public GitHub repository with:
+● A README containing setup instructions, and any assumptions made.
+● Any known issues or limitations of the proposed solution.
+Evaluation criteria:
+● Framework / Symfony best practices – Consistent use of services, validation, dependency
+injection, and routing.
+● Dynamic data storage for Leads – Ability to store and validate dynamic fields without
+requiring database schema changes.
+● High-throughput handling – Design and implementation for handling high API request
+volumes.
+● Authentication and security – Proper handling of authentication and access control.
+● Comprehensive logging – Good usage of logging to track and help evaluate any issues with
+the application.
+● Error handling and fault tolerance – Robust handling of errors.
+● Code structure and design – Clean and maintainable code with scalability in mind.
