@@ -5,22 +5,20 @@ docker-compose up -d
 ```
 
 ##  Create DB tables
-run composer and migrations with user creation
+Run composer and migrations with user creation
 ```
 docker exec lead-api-php bash -c "composer install && php bin/console doctrine:migrations:migrate -n && php bin/console app:create-user"
 ```
 
-project api will available here:
+Project api will available here:
 http://localhost:8077/api
-
 
 ## Add leads handler
 Lead handling was implemented asynchronously to support over 1000 requests per minute. Make sure to run LeadMessageHandler to process each POST request to /leads asynchronously%
 ```
 docker exec -d lead-api-php bash -c "php bin/console messenger:consume lead_queue"
 ```
-
-Now every POST request to the /leads endpoint stores data in the api_requests and api_responses database tables, and each request is also processed asynchronously.
+Each POST request to the /leads endpoint now stores data in the api_requests and api_responses database tables, and is processed asynchronously.
 
 ## Endpoint Postman collection
 This collection is provided in (lays in root directory):
@@ -28,7 +26,7 @@ This collection is provided in (lays in root directory):
 lead-api.postman_collection.json
 ```
 
-but you also can try to send your own request with curl, for example:
+You can also try sending your own request using cURL. For example:
 ```
 curl --location 'http://localhost:8077/api/leads' \
 --header 'Content-Type: application/json' \
@@ -47,20 +45,20 @@ curl --location 'http://localhost:8077/api/leads' \
 ```
 
 ##  Load Testing
-I decided to create a separate test environment to ensure clean and isolated testing processes. In this setup, we need to run the API and tests separately. Let's create a test database to store all testing data independently.
+I decided to create a separate test environment to ensure clean and isolated testing. In this setup, we need to run the API and the tests separately. Let’s create a dedicated test database to store all testing data independently.
 ```
 docker exec -it lead-api-php php bin/console doctrine:migrations:migrate --env=test -n
 ```
 
-run test api instances
+Run test api instances
 ```
 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d api_test nginx_test
 ```
-create test user
+Create test user
 ```
 docker exec -it lead-api-api_test php bin/console app:create-user
 ```
-and launch test lead handler worker
+And launch test lead handler worker
 ```
 docker exec -d lead-api-api_test bash -c "php bin/console messenger:consume lead_queue"
 ```
@@ -69,12 +67,10 @@ Then run the testing script:
 ```
 docker run -i grafana/k6 run - < test_script.js
 ```
-to test endpoint's load level
-btw, you can customize time and users in  test_script.js
-
-if you have a problem with k6 package to run testing, install it with:
+To test the load level of the endpoint, you can customize the duration and number of virtual users in test_script.js.
+If you encounter issues running the k6 package, you can install it using:
 ```
 brew install k6   
 ```
 
-all testing data will be stored separately in lead_db_test database
+All testing data will be stored separately in the lead_db_test database.
