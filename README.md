@@ -17,7 +17,7 @@ http://localhost:8077/api
 ## Add leads handler
 Lead handling was implemented asynchronously to support over 1000 requests per minute. Make sure to run LeadMessageHandler to process each POST request to /leads asynchronously%
 ```
-docker exec -it lead-api-php php bin/console messenger:consume lead_queue -vv
+docker exec -d lead-api-php bash -c "php bin/console messenger:consume lead_queue"
 ```
 
 Now every POST request to the /leads endpoint stores data in the api_requests and api_responses database tables, and each request is also processed asynchronously.
@@ -56,9 +56,13 @@ run test api instances
 ```
 docker-compose -f docker-compose.yml -f docker-compose.test.yml up -d api_test nginx_test
 ```
+create test user
+```
+docker exec -it lead-api-api_test php bin/console app:create-user
+```
 and launch test lead handler worker
 ```
-docker exec -it lead-api-api_test php bin/console messenger:consume lead_queue
+docker exec -d lead-api-api_test bash -c "php bin/console messenger:consume lead_queue"
 ```
 
 Then run the testing script:
